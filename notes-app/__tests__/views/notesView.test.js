@@ -28,12 +28,27 @@ describe('NotesView', () => {
       expect(document.querySelectorAll('div').length).toBe(3);
     })
     
-    test('', () => {
+    test('Add note button', () => {
       const button = document.querySelector("#add-note-button");
       document.querySelector("#note-text").value = "Feed the Peregrine Falcon";
       button.click();
       notesView.displayNotes();
       expect(document.querySelector(".note").textContent).toBe("Feed the Peregrine Falcon");
     });
+  })
+
+  describe('clearNotes', () => {
+    test('it removes all notes from the list', () => {
+      jest.spyOn(notesView.notesModel, 'getNotes')
+      jest.spyOn(notesView, 'displayNotes')
+
+      const button = document.querySelector("#add-note-button");
+      document.querySelector("#note-text").value = "Feed the Peregrine Falcon";
+      button.click();
+      notesView.displayNotes();
+      notesView.clearNotes();
+      expect(document.querySelectorAll('.note').length).toBe(0);
+      expect(notesView.displayNotes).toHaveBeenCalledTimes(2);
+    })
   })
 })
