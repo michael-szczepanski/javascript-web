@@ -1,8 +1,10 @@
 const NotesModel = require('../models/notesModel.js');
 
 class NotesView {
-  constructor(notesModel) {
+  constructor(notesModel, notesClient) {
     this.notesModel = notesModel;
+    this.notesClient = notesClient;
+
     this.addNoteButton = document.querySelector("#add-note-button");
     this.addNoteButton.addEventListener('click', () => { this.#addNote() });
   }
@@ -18,6 +20,17 @@ class NotesView {
 
   clearNotes() {
     document.querySelectorAll('.note').forEach(note => note.remove());
+  }
+
+  displayNotesFromApi() {
+    this.notesClient.loadNotes((data) => {
+      data.forEach((element) => {
+        this.notesModel.addNote(element);
+      })
+      this.clearNotes();
+      this.displayNotes();
+    })
+    
   }
 
   // Private methods
