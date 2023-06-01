@@ -47,13 +47,13 @@ describe('NotesView', () => {
   })
 
   describe('clearNotes', () => {
-    test('it removes all notes from the list', () => {
+    test('it removes all notes from the list', async () => {
       jest.spyOn(view.model, 'getNotes')
       jest.spyOn(view, 'displayNotesFromApi')
 
       const button = document.querySelector("#add-note-button");
       document.querySelector("#note-text").value = "Feed the Peregrine Falcon";
-      button.click();
+      await button.click();
       view.clearNotes();
       expect(document.querySelectorAll('.note').length).toBe(0);
       expect(view.displayNotesFromApi).toHaveBeenCalledTimes(1);

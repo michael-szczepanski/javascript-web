@@ -23,9 +23,9 @@ class NotesView {
     document.querySelectorAll('.note').forEach(note => note.remove());
   }
 
-  displayNotesFromApi() {
+  async displayNotesFromApi() {
     this.model.reset();
-    this.client.loadNotes((data) => {
+    await this.client.loadNotes((data) => {
       data.forEach((element) => {
         this.model.addNote(element);
       })
@@ -35,9 +35,9 @@ class NotesView {
     
   }
 
-  addNote() {
+  async addNote() {
     const note = document.querySelector("#note-text").value;
-    this.client.createNote(note);
+    await this.client.createNote(note);
     this.displayNotesFromApi();
     document.querySelector('#note-text').value = '';
   }
