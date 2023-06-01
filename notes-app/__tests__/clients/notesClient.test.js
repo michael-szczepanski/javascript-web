@@ -42,9 +42,7 @@ describe('Client class', () => {
       const mockFetch = jest.fn();
       global.fetch = mockFetch;
   
-      const note = {
-        content: 'new note',
-      };
+      const note = 'new note'
   
       notesClient.createNote(note);
   
@@ -53,7 +51,7 @@ describe('Client class', () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(note),
+        body: JSON.stringify({"content" : note}),
       });
     });
   });

@@ -39,6 +39,7 @@ class NotesView {
     const note = document.querySelector("#note-text").value;
     await this.client.createNote(note);
     document.querySelector('#note-text').value = '';
+    this.displayNotesFromApi();
   }
 }
 
