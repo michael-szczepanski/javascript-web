@@ -5,14 +5,17 @@ const NotesClient = require('../../src/clients/notesClient.js');
 // available within the browser)
 require('jest-fetch-mock').enableMocks()
 
+let client;
+
 describe('Client class', () => {
   beforeEach(() => {
     fetch.resetMocks();
+    client = new NotesClient();
   });
 
   test('calls fetch and loads data', (done) => {
     // 1. Instantiate the class
-    const client = new NotesClient();
+
     // 2. We mock the response from `fetch`
     // The mocked result will depend on what your API
     // normally returns — you want your mocked response
@@ -35,9 +38,6 @@ describe('Client class', () => {
   });
 
   test('makes a POST request with the correct parameters', () => {
-
-    // TODO: Redo with fetch.mock.calls
-    const client = new NotesClient();
     const note = 'new note'
 
     fetch.mockResponseOnce(JSON.stringify({
