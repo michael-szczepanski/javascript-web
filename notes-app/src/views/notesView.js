@@ -37,8 +37,8 @@ class NotesView {
 
   async addNote() {
     const note = document.querySelector("#note-text").value;
-    await this.client.createNote(note);
     document.querySelector('#note-text').value = '';
+    await this.client.createNote(note);
     this.displayNotesFromApi();
   }
 }

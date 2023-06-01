@@ -8,7 +8,7 @@ class NotesClient {
   }
 
   createNote(note) {
-    fetch('http://localhost:3000/notes', {
+    return fetch('http://localhost:3000/notes', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
