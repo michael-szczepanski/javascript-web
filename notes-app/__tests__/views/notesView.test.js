@@ -62,7 +62,6 @@ describe('NotesView', () => {
 
   describe('displayNotesFromApi()', () => {
     test('it loads notes correctlt', async () => {
-      // jest.spyOn(notesView.client, 'loadNotes')
       fetch.mockResponseOnce(JSON.stringify({
         notes: ['note 1', 'note 2']
       }));
