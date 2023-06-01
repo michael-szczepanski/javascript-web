@@ -1,16 +1,17 @@
 const NotesModel = require('../models/notesModel.js');
+const NotesClient = require('../clients/notesClient.js');
 
 class NotesView {
-  constructor(notesModel, notesClient) {
-    this.notesModel = notesModel;
-    this.notesClient = notesClient;
+  constructor(model, client) {
+    this.model = model;
+    this.client = client;
 
     this.addNoteButton = document.querySelector("#add-note-button");
-    this.addNoteButton.addEventListener('click', () => { this.#addNote() });
+    this.addNoteButton.addEventListener('click', () => { this.addNote() });
   }
 
   displayNotes() {
-    this.notesModel.getNotes().forEach((note) => {
+    this.model.getNotes().forEach((note) => {
       let div = document.createElement('div');
       div.className = 'note'
       div.append(note);
@@ -23,9 +24,9 @@ class NotesView {
   }
 
   displayNotesFromApi() {
-    this.notesClient.loadNotes((data) => {
+    this.client.loadNotes((data) => {
       data.forEach((element) => {
-        this.notesModel.addNote(element);
+        this.model.addNote(element);
       })
       this.clearNotes();
       this.displayNotes();
@@ -35,11 +36,11 @@ class NotesView {
 
   // Private methods
 
-  #addNote() {
-    const value = document.querySelector("#note-text").value;
-    this.notesModel.addNote(value);
+  addNote() {
+    const note = document.querySelector("#note-text").value;
+    this.client.createNote(note);
     this.clearNotes();
-    this.displayNotes();
+    this.displayNotesFromApi();
     document.querySelector('#note-text').value = '';
   }
 }
