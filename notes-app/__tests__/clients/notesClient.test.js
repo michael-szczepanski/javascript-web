@@ -8,12 +8,11 @@ require('jest-fetch-mock').enableMocks()
 describe('Client class', () => {
   beforeEach(() => {
     fetch.resetMocks();
-  })
+  });
 
-  it('calls fetch and loads data', (done) => {
+  test('calls fetch and loads data', (done) => {
     // 1. Instantiate the class
-    const notesClient = new NotesClient();
-
+    const client = new NotesClient();
     // 2. We mock the response from `fetch`
     // The mocked result will depend on what your API
     // normally returns — you want your mocked response
@@ -27,7 +26,7 @@ describe('Client class', () => {
     // When the HTTP response is received, the callback will be called.
     // We then use `expect` to assert the data from the server contain
     // what it should.
-    notesClient.loadNotes((returnedDataFromApi) => {
+    client.loadNotes((returnedDataFromApi) => {
       expect(returnedDataFromApi.notes).toEqual(['note 1', 'note 2']);
 
       // 4. Tell Jest our test can now end.
@@ -35,27 +34,32 @@ describe('Client class', () => {
     });
   });
 
-  describe('createNote', () => {
-    it('makes a POST request with the correct parameters', () => {
-      const notesClient = new NotesClient();
+  test('makes a POST request with the correct parameters', () => {
 
-      const mockFetch = jest.fn();
-      global.fetch = mockFetch;
-  
-      const note = 'new note'
-  
-      notesClient.createNote(note);
-  
-      expect(mockFetch).toHaveBeenCalledWith('http://localhost:3000/notes', {
+    // TODO: Redo with fetch.mock.calls
+    const client = new NotesClient();
+    const note = 'new note'
+
+    fetch.mockResponseOnce(JSON.stringify({
+      content: note
+    }))
+
+    return client.createNote(note).then(() => {
+      expect(fetch.mock.calls.length).toBe(1);
+      expect(fetch.mock.lastCall[0]).toEqual('http://localhost:3000/notes');
+      expect(fetch.mock.lastCall[1]).toEqual({
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({"content" : note}),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: '{"content":"new note"}'
+      })
+      expect(fetch).toBeCalledWith('http://localhost:3000/notes',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{"content":"new note"}'
+      })
     });
   });
-
   
   
   
