@@ -24,6 +24,7 @@ class NotesView {
   }
 
   displayNotesFromApi() {
+    this.model.reset();
     this.client.loadNotes((data) => {
       data.forEach((element) => {
         this.model.addNote(element);
@@ -34,12 +35,9 @@ class NotesView {
     
   }
 
-  // Private methods
-
   addNote() {
     const note = document.querySelector("#note-text").value;
     this.client.createNote(note);
-    this.clearNotes();
     this.displayNotesFromApi();
     document.querySelector('#note-text').value = '';
   }
