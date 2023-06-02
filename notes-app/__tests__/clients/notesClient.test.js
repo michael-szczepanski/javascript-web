@@ -42,14 +42,14 @@ describe('Client class', () => {
   });
 
   describe('createNote', () => {
-    test('makes a POST request with the correct parameters', () => {
+    test('makes a POST request with the correct parameters', async () => {
       const note = 'new note'
   
       fetch.mockResponseOnce(JSON.stringify({
         content: note
       }))
   
-      return client.createNote(note).then(() => {
+      await client.createNote(note).then(() => {
         expect(fetch.mock.calls.length).toBe(1);
         expect(fetch.mock.lastCall[0]).toEqual('http://localhost:3000/notes');
         expect(fetch.mock.lastCall[1]).toEqual({
@@ -66,5 +66,14 @@ describe('Client class', () => {
       });
     });
   });
+
+  describe('deleteNotes', () => {
+    test('it sends a correct request', async () => {
+      await client.deleteNotes().then(() => {
+        expect(fetch.mock.calls.length).toBe(1);
+        expect(fetch.mock.calls[0][1].method).toEqual('DELETE');
+      })
+    })
+  })
   
 });

@@ -21,6 +21,12 @@ class NotesClient {
       console.log(error);
     });
   }
+
+  deleteNotes() {
+    return fetch('http://localhost:3000/notes', {
+      method: "DELETE"
+    })
+  }
 }
 
 module.exports = NotesClient;
