@@ -1,5 +1,6 @@
 const NotesModel = require('../models/notesModel.js');
 const NotesClient = require('../clients/notesClient.js');
+const EmojiClient = require('../clients/emojiClient.js');
 
 class NotesView {
   constructor(model, client) {
@@ -15,10 +16,22 @@ class NotesView {
     this.mainContainerEl = document.querySelector('#main-container');
   }
 
+  setEmojiClient(emojiClient) {
+    this.emojiClient = emojiClient;
+  }
+
   displayNotes() {
     this.model.getNotes().forEach((note) => {
       let div = document.createElement('div');
       div.className = 'note'
+
+      if(this.emojiClient !== undefined) {
+        this.emojiClient.emojify(note).then((data) => {
+          console.log(data)
+          note = data
+        })
+      }
+
       div.append(note);
       document.querySelector('#main-container').append(div);
     })
