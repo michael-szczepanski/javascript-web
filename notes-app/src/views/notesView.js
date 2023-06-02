@@ -9,6 +9,9 @@ class NotesView {
     this.addNoteButton = document.querySelector("#add-note-button");
     this.addNoteButton.addEventListener('click', () => { this.addNote() });
 
+    this.deleteNotesButton = document.querySelector("#delete-notes-button");
+    this.deleteNotesButton.addEventListener('click', () => { this.deleteNotes() })
+
     this.mainContainerEl = document.querySelector('#main-container');
   }
 
@@ -49,6 +52,11 @@ class NotesView {
     errorEl.className = 'error';
     errorEl.append('Oops, something went wrong.');
     this.mainContainerEl.append(errorEl);
+  }
+
+  deleteNotes() {
+    this.client.deleteNotes();
+    this.clearNotes();
   }
 }
 

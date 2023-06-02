@@ -92,4 +92,16 @@ describe('NotesView', () => {
       expect(document.querySelector('.error').textContent).toBe('Oops, something went wrong.');
     })
   })
+
+  describe('deleteNotes', () => {
+    test('it calls the correct method on the client', async () => {
+      jest.spyOn(view, 'deleteNotes');
+      jest.spyOn(view, 'clearNotes');
+      let deleteNotesButton = document.querySelector('#delete-notes-button')
+      await deleteNotesButton.click();
+      expect(view.deleteNotes).toHaveBeenCalledTimes(1);
+      expect(view.client.deleteNotes).toHaveBeenCalledTimes(1);
+      expect(view.clearNotes).toHaveBeenCalledTimes(1);
+    })
+  })
 })
