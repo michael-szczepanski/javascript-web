@@ -67,7 +67,7 @@ describe('NotesView', () => {
   })
 
   describe('displayNotesFromApi()', () => {
-    test('it loads notes correctlt', async () => {
+    test('it loads notes correctly', async () => {
       fetch.mockResponseOnce(JSON.stringify({
         notes: ['note 1', 'note 2']
       }));
@@ -82,6 +82,14 @@ describe('NotesView', () => {
       expect(view.client.loadNotes).toHaveBeenCalledTimes(1);
       expect(fetch.mock.calls.length).toBe(1);
       expect(document.querySelectorAll('.note').length).toBe(2);
+    })
+  })
+
+  describe('displayError', () => {
+    test('it appends the correct item to the document', () => {
+      view.displayError();
+      expect(document.querySelectorAll('.error').length).toBe(1);
+      expect(document.querySelector('.error').textContent).toBe('Oops, something went wrong.');
     })
   })
 })
